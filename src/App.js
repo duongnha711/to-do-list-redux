@@ -1,25 +1,22 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { Fragment } from "react";
+import ToDoListRedux from "./to-do-list-redux";
+import { ThemeProvider } from "@material-ui/core";
+import theme from "./to-do-list-redux/theme";
+import { createStore } from "redux";
+import rootReducer from "./to-do-list-redux/redux/reducers/rootReducer";
+import { Provider } from "react-redux";
+
+const store = createStore(rootReducer);
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Fragment>
+      <Provider store={store}>
+        <ThemeProvider theme={theme}>
+          <ToDoListRedux />
+        </ThemeProvider>
+      </Provider>
+    </Fragment>
   );
 }
 
