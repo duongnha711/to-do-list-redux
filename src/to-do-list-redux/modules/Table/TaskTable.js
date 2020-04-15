@@ -9,7 +9,7 @@ import TableRow from "@material-ui/core/TableRow";
 import Paper from "@material-ui/core/Paper";
 import { Button, Select, FormControl, Grid } from "@material-ui/core";
 import { connect } from "react-redux";
-
+import * as Actions from "./../../redux/actions/taskAction";
 import {
   renderStatus,
   renderPriority,
@@ -28,6 +28,13 @@ function TaskTable(props) {
 
   //props
   const { listTasks } = props;
+  //dispatch
+  const { deleteTask, openModal, editTask } = props;
+
+  const handleEditTask = (taskEdit) => {
+    openModal();
+    editTask(taskEdit);
+  };
 
   const renderTask = () => {
     if (Array.isArray(listTasks) && listTasks.length > 0) {
@@ -41,13 +48,18 @@ function TaskTable(props) {
               {renderPriority(item.priorityTask)}
             </TableCell>
             <TableCell align="center">
-              <Grid justify="center" container>{renderPeople(item.personTask)}</Grid>
+              <Grid justify="center" container>
+                {renderPeople(item.personTask)}
+              </Grid>
             </TableCell>
             <TableCell align="center">
               <Button
                 style={{ padding: "7px 24px", marginRight: 5 }}
                 variant="outlined"
-                color="secondary"
+                color="primary"
+                onClick={() => {
+                  handleEditTask(item);
+                }}
               >
                 Edit
               </Button>
@@ -64,6 +76,16 @@ function TaskTable(props) {
                   <option value={4}>Cancel</option>
                 </Select>
               </FormControl>
+              <Button
+                onClick={() => {
+                  handleDeleteTask(item.id);
+                }}
+                style={{ padding: "7px 24px", marginLeft: 5 }}
+                variant="outlined"
+                color="secondary"
+              >
+                DELETE
+              </Button>
             </TableCell>
             <TableCell align="center">
               {renderStatus(item.statusTask)}
@@ -74,6 +96,9 @@ function TaskTable(props) {
     }
   };
 
+  const handleDeleteTask = (id) => {
+    deleteTask(id);
+  };
   return (
     <TableContainer
       style={{
@@ -120,4 +145,12 @@ const mapStateToProps = (state) => {
   };
 };
 
-export default connect(mapStateToProps, null)(TaskTable);
+const mapDispatchToProps = (dispatch) => {
+  return {
+    deleteTask: (id) => dispatch(Actions.deleteTaskAction(id)),
+    openModal: () => dispatch(Actions.openModal()),
+    editTask: (taskEdit) => dispatch(Actions.editTaskAction(taskEdit)),
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(TaskTable);

@@ -1,11 +1,10 @@
-import React, { useState, Fragment } from "react";
+import React, { Fragment } from "react";
 
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 
 import { Alert } from "@material-ui/lab";
 import { secondaryColor } from "./../../theme";
-
 import {
   Button,
   Dialog,
@@ -18,8 +17,10 @@ import {
   Checkbox,
 } from "@material-ui/core";
 import AddIcon from "@material-ui/icons/Add";
-
 import { makeStyles } from "@material-ui/core/styles";
+
+import { connect } from "react-redux";
+import * as Actions from "./../../redux/actions/taskAction";
 
 const useStyles = makeStyles({
   dialog: {
@@ -39,8 +40,7 @@ const useStyles = makeStyles({
   },
 });
 
-export default function TaskModal(props) {
-  const [open, setOpen] = useState(false);
+function TaskModal(props) {
   const classes = useStyles();
   //formik
   const Schema = Yup.object().shape({
@@ -92,12 +92,16 @@ export default function TaskModal(props) {
       </Alert>
     );
   };
-
+  //props
+  const { open, taskEdit, clickButtonAdd } = props;
+  //dispatch
+  const { saveTask, closeModal, openModal } = props;
   const handleClickOpen = () => {
-    setOpen(true);
+    openModal();
+    clickButtonAdd();
   };
   const handleClose = () => {
-    setOpen(false);
+    closeModal();
   };
 
   return (
@@ -115,26 +119,30 @@ export default function TaskModal(props) {
       {/* modal */}
       <Dialog className={classes.dialog} open={open} onClose={handleClose}>
         <DialogContent style={{ width: 700 }}>
-          <Typography variant="h2">Add Task</Typography>
+          <Typography variant="h2">
+            {taskEdit.nameTask ? "EDIT TASK" : "ADD TASK"}
+          </Typography>
           <Formik
             initialValues={{
-              nameTask: "",
-              priorityTask: "",
-              labelTask: [],
-              personTask: [],
+              nameTask: taskEdit.nameTask ? taskEdit.nameTask : "",
+              priorityTask: taskEdit.priorityTask ? taskEdit.priorityTask : "",
+              labelTask: taskEdit.labelTask ? taskEdit.labelTask : [],
+              personTask: taskEdit.personTask ? taskEdit.personTask : [],
             }}
             validationSchema={Schema}
             onSubmit={(values) => {
               //truyen value di
-              console.log("values", values);
-              setOpen(false);
+              //xu ly values
+              const taskABC = {
+                ...values,
+                id: taskEdit.id ? taskEdit.id : "",
+                statusTask: taskEdit.statusTask ? taskEdit.statusTask : 2,
+              };
+              saveTask(taskABC);
+              closeModal();
             }}
           >
-            {({ isValid, touched }) => {
-              if (!touched.name || !touched.status) {
-                isValid = false;
-              }
-
+            {({ isValid, touched, values }) => {
               return (
                 <Form>
                   <div className={classes.colorLabel}>Task Name</div>
@@ -171,6 +179,7 @@ export default function TaskModal(props) {
                       component={CheckBoxInput}
                       name="personTask"
                       value="luffy"
+                      checked={values.personTask.includes("luffy")}
                     />
                     Luffy
                   </label>
@@ -179,6 +188,7 @@ export default function TaskModal(props) {
                       component={CheckBoxInput}
                       name="personTask"
                       value="zoro"
+                      checked={values.personTask.includes("zoro")}
                     />
                     Zoro
                   </label>
@@ -187,6 +197,7 @@ export default function TaskModal(props) {
                       component={CheckBoxInput}
                       name="personTask"
                       value="sanji"
+                      checked={values.personTask.includes("sanji")}
                     />
                     Sanji
                   </label>
@@ -195,6 +206,7 @@ export default function TaskModal(props) {
                       component={CheckBoxInput}
                       name="personTask"
                       value="chopper"
+                      checked={values.personTask.includes("chopper")}
                     />
                     Chopper
                   </label>
@@ -210,6 +222,7 @@ export default function TaskModal(props) {
                       component={CheckBoxInput}
                       name="labelTask"
                       value="FE"
+                      checked={values.labelTask.includes("FE")}
                     />
                     Front-end
                   </label>
@@ -218,6 +231,7 @@ export default function TaskModal(props) {
                       component={CheckBoxInput}
                       name="labelTask"
                       value="BE"
+                      checked={values.labelTask.includes("BE")}
                     />
                     Back-end
                   </label>
@@ -226,6 +240,7 @@ export default function TaskModal(props) {
                       component={CheckBoxInput}
                       name="labelTask"
                       value="FT"
+                      checked={values.labelTask.includes("FT")}
                     />
                     Full-stack
                   </label>
@@ -234,6 +249,7 @@ export default function TaskModal(props) {
                       component={CheckBoxInput}
                       name="labelTask"
                       value="DB"
+                      checked={values.labelTask.includes("DB")}
                     />
                     Database
                   </label>
@@ -270,3 +286,20 @@ export default function TaskModal(props) {
     </Fragment>
   );
 }
+
+const mapStateToProps = (state) => {
+  return {
+    open: state.taskReducer.openModal,
+    taskEdit: state.taskReducer.taskEdit,
+  };
+};
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    saveTask: (data) => dispatch(Actions.saveTaskAction(data)),
+    closeModal: () => dispatch(Actions.closeModal()),
+    openModal: () => dispatch(Actions.openModal()),
+    clickButtonAdd: () => dispatch(Actions.clickButttonAddAction()),
+  };
+};
+export default connect(mapStateToProps, mapDispatchToProps)(TaskModal);
