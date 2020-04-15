@@ -57,16 +57,16 @@ export const renderLabel = (arrLabel) => {
     return arrLabel.map((item, index) => {
       let color;
       switch (item) {
-        case 1:
+        case "FE":
           color = "blue";
           break;
-        case 2:
+        case "BE":
           color = "yellow";
           break;
-        case 3:
+        case "FT":
           color = "green";
           break;
-        case 4:
+        case "DB":
           color = "red";
           break;
         default:
@@ -76,7 +76,7 @@ export const renderLabel = (arrLabel) => {
       return (
         <FiberManualRecordIcon
           key={index}
-          style={{ fontWeight:"bold" , marginRight: 5, color }}
+          style={{ fontWeight: "bold", marginRight: 5, color }}
         />
       );
     });
@@ -98,3 +98,6 @@ export const renderPeople = (arrPeople) => {
     });
   }
 };
+
+export const findTaskIndex = (arr, id) =>
+  arr.findIndex((item) => item.id === id);

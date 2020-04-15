@@ -13,16 +13,17 @@ export default function ToDoListRedux(props) {
   const classes = useStyles();
 
   //data mau
-  const tasks = [
-    {
-      id: 1,
-      nameTask: "Hoc react redux",
-      labelTask: [1,2, 4],
-      priorityTask: 3,
-      personTask: ["chopper", "sanji"],
-      statusTask: 4,
-    },
-  ];
+  // const tasks = [
+  //   {
+  //     id: 1,
+  //     nameTask: "Hoc react redux",
+  //     labelTask: ["FE","BE", "DB"],
+  //     priorityTask: 3,
+  //     personTask: ["chopper", "sanji"],
+  //     statusTask: 4,
+  //   },
+  // ];
+  // localStorage.setItem("listTasks",JSON.stringify(tasks))
 
   return (
     <Fragment>
