@@ -1,4 +1,4 @@
-import React, { Fragment } from "react";
+import React, { Fragment, useEffect } from "react";
 import useStyles from "./style";
 import { Grid, CssBaseline, Typography, Box } from "@material-ui/core";
 import SearchBar from "./components/SearchBar/SearchBar";
@@ -9,21 +9,35 @@ import SortLabel from "./modules/SortTask/SortLabel/SortLabel";
 import SortPriority from "./modules/SortTask/SortPriority/SortPriority";
 import SortName from "./modules/SortTask/SortName/SortName";
 
-export default function ToDoListRedux(props) {
-  const classes = useStyles();
+import { useDebouncedCallback } from "use-debounce";
 
-  //data mau
-  // const tasks = [
-  //   {
-  //     id: 1,
-  //     nameTask: "Hoc react redux",
-  //     labelTask: ["FE","BE", "DB"],
-  //     priorityTask: 3,
-  //     personTask: ["chopper", "sanji"],
-  //     statusTask: 4,
-  //   },
-  // ];
-  // localStorage.setItem("listTasks",JSON.stringify(tasks))
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import { toast } from "react-toastify";
+
+import { connect } from "react-redux";
+import * as Actions from "./redux/actions/taskAction";
+function ToDoListRedux(props) {
+  const classes = useStyles();
+  const { keyWord, listTasks } = props;
+  //dispatch
+  const { searchNameTask } = props;
+
+  //debounce keyWord
+  const [debouncedCallback] = useDebouncedCallback((value) => {
+    //dispatch keyWord
+    searchNameTask(value);
+  }, 300);
+
+  useEffect(() => {
+    searchNameTask(keyWord);
+  }, [listTasks, keyWord, searchNameTask]);
+
+  //warning thôi -> nhớ detele
+  useEffect(() => {
+    toast.error("Chưa responsive hihi", { autoClose: 10000 });
+    toast.error("Chưa fix confirm - detele", { autoClose: 10000 });
+  }, []);
 
   return (
     <Fragment>
@@ -46,12 +60,16 @@ export default function ToDoListRedux(props) {
             <Grid container spacing={1}>
               <Grid alignItems="center" container item xs={6}>
                 <Typography style={{ color: "white" }} variant="h3">
-                  Task List Management
+                  Tasks List Management
                 </Typography>
               </Grid>
               <Grid item xs={6}>
                 {/* SearchBar */}
-                <SearchBar />
+                <SearchBar
+                  onChange={(e) => {
+                    debouncedCallback(e.target.value);
+                  }}
+                />
               </Grid>
             </Grid>
           </Grid>
@@ -64,6 +82,7 @@ export default function ToDoListRedux(props) {
             {/* TaskModal */}
 
             <TaskModal />
+
             {/* Sort Status */}
             <Box marginTop={1}>
               <SortStatus />
@@ -88,6 +107,22 @@ export default function ToDoListRedux(props) {
           </Grid>
         </Grid>
       </Box>
+      <ToastContainer autoClose={3000} />
     </Fragment>
   );
 }
+
+const mapStateToProps = (state) => {
+  return {
+    keyWord: state.taskReducer.keyWord,
+    listTasks: state.taskReducer.listTasks,
+  };
+};
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    searchNameTask: (keyWord) =>
+      dispatch(Actions.searchNameTaskAction(keyWord)),
+  };
+};
+export default connect(mapStateToProps, mapDispatchToProps)(ToDoListRedux);

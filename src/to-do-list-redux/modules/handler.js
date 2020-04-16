@@ -101,3 +101,27 @@ export const renderPeople = (arrPeople) => {
 
 export const findTaskIndex = (arr, id) =>
   arr.findIndex((item) => item.id === id);
+
+// remove diacritics/accents
+export const clearAccents = (str) => {
+  return str
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .replace(/đ/g, "d")
+    .replace(/Đ/g, "D");
+};
+
+//sort task
+export function sortTask(arr, by, value) { // A-Z: value: 1, Z-A: value -1
+  return arr.sort((a, b) => { // sort thay đổi mảng truyền vào -> nên cần [...arr]
+    const x = a[by].toLowerCase(); // by="name" -> obj[by] ~~ obj.name
+    const y = b[by].toLowerCase();
+    if (x < y) {
+      return -value;
+    }
+    if (x > y) {
+      return value;
+    }
+    return 0;
+  });
+}

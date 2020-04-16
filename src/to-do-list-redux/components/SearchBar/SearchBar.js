@@ -2,7 +2,7 @@ import React from "react";
 import { OutlinedInput, FormControl } from "@material-ui/core";
 import SearchIcon from "@material-ui/icons/Search";
 
-export default function SearchBar() {
+export default function SearchBar(props) {
   return (
     <FormControl fullWidth size="small">
       <OutlinedInput
@@ -10,6 +10,7 @@ export default function SearchBar() {
         color="secondary"
         size="small"
         endAdornment={<SearchIcon color="primary" />}
+        {...props}
       />
     </FormControl>
   );
