@@ -63,7 +63,7 @@ export const searchNameTaskAction = (keyWord) => {
 
 export const sortTaskAction = (valueSort) => {
   return {
-    type: ActionType.SORT_TASK,
+    type: ActionType.SORT_NAME,
     valueSort,
   };
 };

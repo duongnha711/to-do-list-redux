@@ -4,10 +4,10 @@ import { Grid, CssBaseline, Typography, Box } from "@material-ui/core";
 import SearchBar from "./components/SearchBar/SearchBar";
 import TaskModal from "./modules/TaskModal/TaskModal";
 import TaskTable from "./modules/Table/TaskTable";
-import SortStatus from "./modules/SortTask/SortStatus/SortStatus";
-import SortLabel from "./modules/SortTask/SortLabel/SortLabel";
-import SortPriority from "./modules/SortTask/SortPriority/SortPriority";
-import SortName from "./modules/SortTask/SortName/SortName";
+import FilterStatus from "./modules/ControlTask/FilterStatus/FilterStatus";
+import FilterLabel from "./modules/ControlTask/FilterLabel/FilterLabel";
+import FilterPriority from "./modules/ControlTask/FilterPriority/FilterPriority";
+import SortName from "./modules/ControlTask/SortName/SortName";
 
 import { useDebouncedCallback } from "use-debounce";
 
@@ -83,17 +83,17 @@ function ToDoListRedux(props) {
 
             <TaskModal />
 
-            {/* Sort Status */}
+            {/* FilterStatus */}
             <Box marginTop={1}>
-              <SortStatus />
+              <FilterStatus />
             </Box>
-            {/* Sort Label */}
+            {/* FilterLabel */}
             <Box marginTop={1}>
-              <SortLabel />
+              <FilterLabel />
             </Box>
-            {/* SortPriority */}
+            {/* FilterPriority */}
             <Box marginTop={1}>
-              <SortPriority />
+              <FilterPriority />
             </Box>
             {/* Sort Name */}
             <Box marginTop={1}>
