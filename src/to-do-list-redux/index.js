@@ -35,8 +35,8 @@ function ToDoListRedux(props) {
 
   //warning thôi -> nhớ detele
   useEffect(() => {
-    toast.error("Chưa responsive hihi", { autoClose: 10000 });
-    toast.error("Chưa fix confirm - detele", { autoClose: 10000 });
+    toast.error("Chưa responsive", { autoClose: 10000 });
+    toast.error("Chưa customize confirm - detele", { autoClose: 10000 });
   }, []);
 
   return (
