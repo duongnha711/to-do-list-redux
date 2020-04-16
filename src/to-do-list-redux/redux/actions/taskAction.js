@@ -25,6 +25,14 @@ export const openModal = () => {
     type: ActionType.OPEN_MODAL,
   };
 };
+//viet kieu nay can applyMiddleWare
+// export const openModal = () => {
+//   return (dispatch) => {
+//     dispatch({
+//       type: ActionType.OPEN_MODAL,
+//     });
+//   };
+// };
 
 export const editTaskAction = (taskEdit) => {
   return {
@@ -36,5 +44,33 @@ export const editTaskAction = (taskEdit) => {
 export const clickButttonAddAction = () => {
   return {
     type: ActionType.CLICK_BUTTON_ADD,
+  };
+};
+
+export const changeStatusAction = (data) => {
+  return {
+    type: ActionType.CHANGE_STATUS,
+    data,
+  };
+};
+
+export const searchNameTaskAction = (keyWord) => {
+  return {
+    type: ActionType.SEARCH_NAME_TASK,
+    keyWord,
+  };
+};
+
+export const sortTaskAction = (valueSort) => {
+  return {
+    type: ActionType.SORT_TASK,
+    valueSort,
+  };
+};
+
+export const filterTaskAction = (valueFilter) => {
+  return {
+    type: ActionType.FILTER_TASK,
+    valueFilter,
   };
 };

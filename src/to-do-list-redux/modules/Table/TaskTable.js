@@ -7,7 +7,7 @@ import TableContainer from "@material-ui/core/TableContainer";
 import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
 import Paper from "@material-ui/core/Paper";
-import { Button, Select, FormControl, Grid } from "@material-ui/core";
+import { Button, Select, FormControl, Grid, Tooltip } from "@material-ui/core";
 import { connect } from "react-redux";
 import * as Actions from "./../../redux/actions/taskAction";
 import {
@@ -27,9 +27,9 @@ function TaskTable(props) {
   const classes = useStyles();
 
   //props
-  const { listTasks } = props;
+  const { searchTaskList } = props;
   //dispatch
-  const { deleteTask, openModal, editTask } = props;
+  const { deleteTask, openModal, editTask, changeStatus } = props;
 
   const handleEditTask = (taskEdit) => {
     openModal();
@@ -37,8 +37,8 @@ function TaskTable(props) {
   };
 
   const renderTask = () => {
-    if (Array.isArray(listTasks) && listTasks.length > 0) {
-      return listTasks.map((item, index) => {
+    if (Array.isArray(searchTaskList) && searchTaskList.length > 0) {
+      return searchTaskList.map((item, index) => {
         return (
           <TableRow key={index}>
             <TableCell align="center">{index + 1}</TableCell>
@@ -63,22 +63,30 @@ function TaskTable(props) {
               >
                 Edit
               </Button>
-              <FormControl size="small">
-                <Select
-                  defaultValue={item.statusTask}
-                  variant="outlined"
-                  native
-                  color="secondary"
-                >
-                  <option value={1}>In progress</option>
-                  <option value={2}>Not started yet</option>
-                  <option value={3}>Finish</option>
-                  <option value={4}>Cancel</option>
-                </Select>
-              </FormControl>
+              <Tooltip title="Change status of task">
+                <FormControl size="small">
+                  <Select
+                    value={item.statusTask}
+                    variant="outlined"
+                    native
+                    color="secondary"
+                    onChange={(e) => {
+                      handleChangeStatus(e, item.id);
+                    }}
+                  >
+                    <option value={1}>In progress</option>
+                    <option value={2}>Not started yet</option>
+                    <option value={3}>Finish</option>
+                    <option value={4}>Cancel</option>
+                  </Select>
+                </FormControl>
+              </Tooltip>
               <Button
                 onClick={() => {
-                  handleDeleteTask(item.id);
+                  if (
+                    window.confirm("Are you sure you wish to delete this item?")
+                  )
+                    handleDeleteTask(item.id);
                 }}
                 style={{ padding: "7px 24px", marginLeft: 5 }}
                 variant="outlined"
@@ -99,6 +107,15 @@ function TaskTable(props) {
   const handleDeleteTask = (id) => {
     deleteTask(id);
   };
+
+  const handleChangeStatus = (e, id) => {
+    const { value } = e.target;
+    const data = { id, value };
+    changeStatus(data);
+  };
+
+
+
   return (
     <TableContainer
       style={{
@@ -141,7 +158,7 @@ function TaskTable(props) {
 
 const mapStateToProps = (state) => {
   return {
-    listTasks: state.taskReducer.listTasks,
+    searchTaskList: state.taskReducer.searchTaskList,
   };
 };
 
@@ -150,6 +167,7 @@ const mapDispatchToProps = (dispatch) => {
     deleteTask: (id) => dispatch(Actions.deleteTaskAction(id)),
     openModal: () => dispatch(Actions.openModal()),
     editTask: (taskEdit) => dispatch(Actions.editTaskAction(taskEdit)),
+    changeStatus: (data) => dispatch(Actions.changeStatusAction(data)),
   };
 };
 
