@@ -4,9 +4,9 @@ import { Typography, Grid, Box } from "@material-ui/core";
 import FiberManualRecordIcon from "@material-ui/icons/FiberManualRecord";
 
 import { connect } from "react-redux";
-import * as Actions from "./../../../redux/actions/taskAction";
+import * as Actions from "../../../redux/actions/taskAction";
 
-function SortLabel(props) {
+function FilterLabel(props) {
   const { dispatch } = props;
 
   const handleClick = (value) => {
@@ -86,4 +86,4 @@ function SortLabel(props) {
   );
 }
 
-export default connect()(SortLabel);
+export default connect()(FilterLabel);

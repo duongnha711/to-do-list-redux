@@ -6,7 +6,7 @@ export const EDIT_TASK = "EDIT_TASK";
 export const CLICK_BUTTON_ADD = "CLICK_BUTTON_ADD";
 export const CHANGE_STATUS = "CHANGE_STATUS";
 export const SEARCH_NAME_TASK = "SEARCH_NAME_TASK";
-export const SORT_TASK = "SORT_TASK";
+export const SORT_NAME = "SORT_NAME";
 export const FILTER_TASK = "FILTER_TASK";
 
 // export const SORT_PRIORITY = "SORT_PRIORITY";

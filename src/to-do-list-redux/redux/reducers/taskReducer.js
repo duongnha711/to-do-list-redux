@@ -117,7 +117,7 @@ const taskReducer = (state = initialState, action) => {
       };
 
     //sort task
-    case ActionType.SORT_TASK: {
+    case ActionType.SORT_NAME: {
       const { by, value } = action.valueSort;
       const newListTasks = sortTask([...state.listTasks], by, value);
       return {

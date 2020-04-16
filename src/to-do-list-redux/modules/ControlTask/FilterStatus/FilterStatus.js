@@ -8,9 +8,9 @@ import CheckBoxOutlinedIcon from "@material-ui/icons/CheckBoxOutlined";
 import DeleteForeverOutlinedIcon from "@material-ui/icons/DeleteForeverOutlined";
 
 import { connect } from "react-redux";
-import * as Actions from "./../../../redux/actions/taskAction";
+import * as Actions from "../../../redux/actions/taskAction";
 
-function SortStatus(props) {
+function FilterStatus(props) {
   const { dispatch } = props;
 
   const handleOnClick = (value) => {
@@ -82,4 +82,4 @@ function SortStatus(props) {
   );
 }
 
-export default connect()(SortStatus);
+export default connect()(FilterStatus);

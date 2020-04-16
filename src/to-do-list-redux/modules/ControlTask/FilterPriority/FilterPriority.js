@@ -3,9 +3,9 @@ import { Fragment } from "react";
 import { Typography, FormControl, Select } from "@material-ui/core";
 
 import { connect } from "react-redux";
-import * as Actions from "./../../../redux/actions/taskAction";
+import * as Actions from "../../../redux/actions/taskAction";
 
-function SortPriority(props) {
+function FilterPriority(props) {
   const { filter } = props;
   const { dispatch } = props;
 
@@ -46,4 +46,4 @@ const mapStateToProps = (state) => {
   };
 };
 
-export default connect(mapStateToProps)(SortPriority);
+export default connect(mapStateToProps)(FilterPriority);
