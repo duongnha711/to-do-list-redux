@@ -6,7 +6,6 @@ import * as Actions from "./../../../redux/actions/taskAction";
 
 function SortName(props) {
   const { dispatch, sort } = props;
-  console.log("SortName -> sort", sort)
 
   const handleOnChange = (e) => {
     const { value } = e.target;
