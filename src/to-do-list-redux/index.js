@@ -53,7 +53,7 @@ function ToDoListRedux(props) {
             xs={3}
           >
             <Typography style={{ color: "white" }} variant="h3">
-              Dương Hoàng Nhã
+              Dương Nhã
             </Typography>
           </Grid>
           <Grid className={classes.rightHeader} item xs={9}>
